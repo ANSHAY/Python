@@ -12,11 +12,11 @@ import sys
 
 try:
     mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print("mysock: " + mysock)
 except socket.error:
     print("could not create socket")
     mysock.close()
     sys.exit()
+print("mysock socket created")
 
 try:
     host = socket.gethostbyname("www.google.com")
@@ -27,13 +27,14 @@ except socket.error:
     sys.exit()
 
 try:
-    mysock.connect(host, 800)
+    mysock.connect((host, 80))
 except socket.error:
     print("could not connect")
     mysock.close()
     sys.exit()
+print ("connection established")
 
-message = "GET \ http\1.1\r\n\r\n"
+message = b"GET / http/1.1\r\n\r\n"
 mysock.sendall(message)
 data = mysock.recv(1000)
 print(data)
